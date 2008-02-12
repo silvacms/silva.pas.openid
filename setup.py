@@ -21,6 +21,7 @@ setup(name='silva.pas.openid',
       include_package_data=True,
       zip_safe=False,
       install_requires=["python-openid <= 2.0.999",
+                        "silva.pas.base",
                         "plone.session",
                         "setuptools"],
       )

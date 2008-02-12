@@ -3,6 +3,8 @@
     xmlns:five="http://namespaces.zope.org/five">
 
   <five:registerPackage package="." initialize=".initialize" />
+
+  <include package="silva.pas.base" />
   <include package="plone.session" />
 
 </configure>
