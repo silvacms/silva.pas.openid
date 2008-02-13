@@ -1,3 +1,4 @@
+from zope.interface import Interface
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 
 class IOpenIdExtractionPlugin(IExtractionPlugin):
@@ -19,3 +20,7 @@ class IOpenIdExtractionPlugin(IExtractionPlugin):
                         }
         """
 
+
+class IOpenIDAware(Interface):
+    """Marker to let known that service_members is OpenID Aware.
+    """
