@@ -1,3 +1,7 @@
+# Copyright (c) 2008 Infrae. All rights reserved.
+# See also LICENSE.txt
+# $Id$
+
 import random
 
 def GenerateSecret(length=16):

@@ -1,3 +1,6 @@
+# Copyright (c) 2008 Infrae. All rights reserved.
+# See also LICENSE.txt
+# $Id$
 
 from Products.Silva.install import add_fss_directory_view, add_helper, zpt_add_helper
 from zope.interface import alsoProvides, noLongerProvides

@@ -1,3 +1,7 @@
+# Copyright (c) 2008 Infrae. All rights reserved.
+# See also LICENSE.txt
+# $Id$
+
 from openid.store.interface import OpenIDStore
 from openid.store.nonce import SKEW
 from openid.association import Association

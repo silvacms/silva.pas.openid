@@ -1,3 +1,6 @@
+# Copyright (c) 2008 Infrae. All rights reserved.
+# See also LICENSE.txt
+# $Id$
 
 from AccessControl.Permissions import manage_users as ManageUsers
 from Products.PluggableAuthService.PluggableAuthService import registerMultiPlugin
