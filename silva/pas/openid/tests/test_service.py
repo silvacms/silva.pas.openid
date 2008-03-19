@@ -19,7 +19,7 @@ class OpenIDDependencyTestCase(SilvaTestCase.SilvaTestCase):
             root = self.getRoot()
             root.service_extensions.install('silva.pas.openid')
             
-        self.assertRaise(AssertionError, install)
+        self.assertRaises(AssertionError, install)
 
 
 class OpenIDTestCase(SilvaTestCase.SilvaTestCase):

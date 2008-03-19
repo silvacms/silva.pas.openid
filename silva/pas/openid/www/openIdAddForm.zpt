@@ -11,7 +11,7 @@
       to Zope. 
     </p>
 
-    <form action="addOpenIdPlugin" method="post">
+    <form action="manage_addOpenIdPlugin" method="post">
       <table>
         <tr>
           <td class="form-label">Id</td>

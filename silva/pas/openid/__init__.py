@@ -19,8 +19,8 @@ def initialize(context):
     context.registerClass(oid.OpenIdPlugin,
                           permission=ManageUsers,
                           constructors=
-                          (oid.manage_addOpenIdPlugin,
-                           oid.addOpenIdPlugin),
+                          (oid.manage_addOpenIdPluginForm,
+                           oid.manage_addOpenIdPlugin),
                           visibility=None,
                           icon="www/openid.png")
 

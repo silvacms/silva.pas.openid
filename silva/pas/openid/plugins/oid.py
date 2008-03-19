@@ -18,12 +18,12 @@ import logging
 
 import urlparse
 
-manage_addOpenIdPlugin = PageTemplateFile("../www/openidAdd", globals(), 
-                __name__="manage_addOpenIdPlugin")
+manage_addOpenIdPluginForm = PageTemplateFile("../www/openIdAddForm", 
+                globals(), __name__="manage_addOpenIdPluginForm")
 
 logger = logging.getLogger("PluggableAuthService")
 
-def addOpenIdPlugin(self, id, title='', REQUEST=None):
+def manage_addOpenIdPlugin(self, id, title='', REQUEST=None):
     """Add a OpenID plugin to a Pluggable Authentication Service.
     """
     p=OpenIdPlugin(id, title)
@@ -123,6 +123,9 @@ class OpenIdPlugin(BasePlugin):
         from it, or a redirect from a OpenID server.
         """
         creds = {}
+        register = request.form.get("__ac_identity_register", None)
+        if register:
+            raise ValueError, "White"
         identity = request.form.get("__ac_identity_url", None)
         if identity:
             self.initiateChallenge(identity)
@@ -134,6 +137,7 @@ class OpenIdPlugin(BasePlugin):
 
     # IAuthenticationPlugin implementation
     def authenticateCredentials(self, credentials):
+        print credentials
         if not credentials.has_key("openid.source"):
             return None
 
@@ -143,9 +147,14 @@ class OpenIdPlugin(BasePlugin):
             identity = credentials["openid.identity"]
             userid = self._identityToId(identity)
 
+            print userid
+
             if result.status==SUCCESS:
-                self._getPAS().updateCredentials(self.REQUEST,
-                                                 self.REQUEST.RESPONSE, userid, "")
+                pas = self._getPAS()
+                pas.updateCredentials(self.REQUEST,
+                                      self.REQUEST.RESPONSE, 
+                                      userid, 
+                                      "")
                 return (userid, userid)
             else:
                 logger.info("OpenId Authentication for %s failed: %s",
