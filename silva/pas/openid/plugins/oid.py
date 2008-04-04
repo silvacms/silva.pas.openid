@@ -137,7 +137,6 @@ class OpenIdPlugin(BasePlugin):
 
     # IAuthenticationPlugin implementation
     def authenticateCredentials(self, credentials):
-        print credentials
         if not credentials.has_key("openid.source"):
             return None
 
@@ -147,15 +146,13 @@ class OpenIdPlugin(BasePlugin):
             identity = credentials["openid.identity"]
             userid = self._identityToId(identity)
 
-            print userid
-
             if result.status==SUCCESS:
                 pas = self._getPAS()
                 pas.updateCredentials(self.REQUEST,
                                       self.REQUEST.RESPONSE, 
                                       userid, 
                                       "")
-                return (userid, userid)
+                return (userid, identity)
             else:
                 logger.info("OpenId Authentication for %s failed: %s",
                             identity, result.message)
