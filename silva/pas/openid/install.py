@@ -49,15 +49,18 @@ def registerPASPlugins(pas):
     """
     pas.manage_addProduct['plone.session'].manage_addSessionPlugin('session')
     pas.manage_addProduct['silva.pas.openid'].manage_addOpenIdPlugin('openid')
+    pas.manage_addProduct['silva.pas.membership'].manage_addMembershipPlugin('members')
 
     plugins = pas.plugins
-    plugins.activatePlugin(IExtractionPlugin, 'openid')
-    plugins.activatePlugin(IAuthenticationPlugin, 'openid')
-
     plugins.activatePlugin(IExtractionPlugin, 'session')
     plugins.activatePlugin(IAuthenticationPlugin, 'session')
     plugins.activatePlugin(ICredentialsResetPlugin, 'session')
     plugins.activatePlugin(ICredentialsUpdatePlugin, 'session')
+
+    plugins.activatePlugin(IExtractionPlugin, 'openid')
+    plugins.activatePlugin(IAuthenticationPlugin, 'openid')
+
+    plugins.activatePlugin(IUserEnumerationPlugin, 'members')
 
 
 
