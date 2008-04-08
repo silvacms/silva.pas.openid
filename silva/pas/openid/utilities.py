@@ -16,12 +16,16 @@ class OpenIDUserConverter(object):
     implements(IUserConverter)
 
     def match(self, userid):
+        if not userid:
+            return False
         ids = urlparse.urlparse(userid)
         if ids[1]:
             return True
         return False
 
     def convert(self, userid):
+        if not userid:
+            return userid
         ids = urlparse.urlparse(userid)
         real = ids[1]
         if len(ids[2]) > 1:
