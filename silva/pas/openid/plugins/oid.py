@@ -9,12 +9,15 @@ from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import classImplements
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
 from silva.pas.openid.interfaces import IOpenIdExtractionPlugin
+from silva.pas.base.interfaces import IUserConverter
 from silva.pas.openid.store import ZopeStore
 from zExceptions import Redirect
 import transaction
 from openid.yadis.discover import DiscoveryFailure
 from openid.consumer.consumer import Consumer, SUCCESS
 import logging
+
+from zope.component import getUtility
 
 import urlparse
 
@@ -71,12 +74,7 @@ class OpenIdPlugin(BasePlugin):
         if mode=="id_res":
             # id_res means 'positive assertion' in OpenID, more commonly
             # describes as 'positive authentication'
-            creds.clear()
-            creds["openid.source"] = "server"
-            creds["nonce"] = request.form.get("nonce")
-            for (field,value) in request.form.iteritems():
-                if field.startswith("openid."):
-                    creds[field] = request.form[field]
+            creds["openid.creds"] = request.form.copy()
         elif mode=="cancel":
             # cancel is a negative assertion in the OpenID protocol,
             # which means the user did not authorize correctly.
@@ -101,6 +99,7 @@ class OpenIdPlugin(BasePlugin):
             return_to=self.REQUEST.form.get("came_from", None)
         if not return_to:
             return_to=self.getTrustRoot()
+        self.REQUEST["SESSION"]['return_to'] = return_to
 
         url=result.redirectURL(self.getTrustRoot(), return_to)
 
@@ -123,10 +122,7 @@ class OpenIdPlugin(BasePlugin):
         from it, or a redirect from a OpenID server.
         """
         creds = {}
-        register = request.form.get("__ac_identity_register", None)
-        if register:
-            raise ValueError, "White"
-        identity = request.form.get("__ac_identity_url", None)
+        identity = request.form.get("__ac_identity_url", '').strip()
         if identity:
             self.initiateChallenge(identity)
             return creds
@@ -137,14 +133,14 @@ class OpenIdPlugin(BasePlugin):
 
     # IAuthenticationPlugin implementation
     def authenticateCredentials(self, credentials):
-        if not credentials.has_key("openid.source"):
+        if not credentials.has_key("openid.creds"):
             return None
-
-        if credentials["openid.source"] == "server":
+        real_creds = credentials["openid.creds"]
+        if real_creds:
             consumer = self.getConsumer()
-            result = consumer.complete(credentials)
-            identity = credentials["openid.identity"]
-            userid = self._identityToId(identity)
+            result = consumer.complete(real_creds,
+                                       self.REQUEST["SESSION"]['return_to'])
+            userid = self._identityToId(result.identity_url)
 
             if result.status==SUCCESS:
                 pas = self._getPAS()
@@ -152,18 +148,17 @@ class OpenIdPlugin(BasePlugin):
                                       self.REQUEST.RESPONSE, 
                                       userid, 
                                       "")
-                return (userid, identity)
+                return (userid, result.identity_url)
             else:
                 logger.info("OpenId Authentication for %s failed: %s",
-                            identity, result.message)
+                            result.identity_url, result.message)
 
         return None
 
     def _identityToId(self, identity):
-        newid = urlparse.urlparse(identity)[1]
-        return newid or identity
-
-
+        utility = getUtility(IUserConverter, name="openid")
+        converter = utility()
+        return converter.convert(identity)
 
 
 classImplements(OpenIdPlugin, IOpenIdExtractionPlugin, IAuthenticationPlugin)

@@ -8,4 +8,8 @@
   <include package="silva.pas.membership" />
   <include package="plone.session" />
 
+  <utility component=".utilities.OpenIDUserConverter"
+           provides="silva.pas.base.interfaces.IUserConverter"
+           name="openid" />
+
 </configure>
