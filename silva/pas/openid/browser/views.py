@@ -24,7 +24,6 @@ class StartOpenIDRegistration(BrowserView):
             raise Redirect, next_url
 
         self.request.form['__ac_identity_url'] = id # Re-inject the id
-        self.request.form['came_from'] = self.context.absolute_url()
 
         smembers = root.service_members
 
