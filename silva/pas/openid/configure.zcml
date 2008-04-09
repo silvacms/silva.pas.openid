@@ -8,6 +8,16 @@
   <include package="silva.pas.membership" />
   <include package="plone.session" />
 
+  <include package=".browser" />
+
+  <adapter factory=".adapters.AskOpenIDOnRequest" />
+  <adapter factory=".adapters.AskedOpenIDOnRequest" />
+
+  <subscriber 
+     for="Products.PluggableAuthService.interfaces.plugins.IAuthenticationPlugin
+          silva.pas.openid.events.IOpenIDResultSuccess"
+     handler=".subscribers.atOpenIDSuccess" />
+
   <utility component=".utilities.OpenIDUserConverter"
            provides="silva.pas.base.interfaces.IUserConverter"
            name="openid" />

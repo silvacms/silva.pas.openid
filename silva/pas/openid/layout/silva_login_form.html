@@ -35,7 +35,7 @@
       </table>
     </form>
 
-    <form method="post" action=""
+    <form method="post" action="#"
           tal:attributes="action string:${here/absolute_url}/login">
       <input type="hidden" name="came_from" value=""
              tal:attributes="value request/came_from | string:"/>
@@ -46,19 +46,20 @@
         </tr>
         <tr>
           <td colspan="2">
-            If you never logged before on this site using OpenID, you
-            need first to
-            <a href="silva_openid_register.html">register
-            yourself</a>.
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
             <br />
             <input type="submit" value=" OpenID " />
           </td>
         </tr>
       </table>
+    </form>
+
+    <form method="post" action="#"
+          tal:attributes="action string:${here/absolute_url}/silva_openid_register.html">
+      <input type="hidden" name="came_from" value=""
+             tal:attributes="value request/came_from | string:"/>
+      If you never logged before on this site using OpenID, you
+      need first to <input type="submit" value="register" />
+      yourself.
     </form>
 
   </div>

@@ -28,3 +28,28 @@ class IOpenIdExtractionPlugin(IExtractionPlugin):
 class IOpenIDAware(Interface):
     """Marker to let known that service_members is OpenID Aware.
     """
+
+class IOpenIDAskUserInformation(Interface):
+    """Let ask some information to the OpenID provider.
+    """
+
+    def require(name):
+        """Require name from the provider.
+        """
+
+    def optional(name):
+        """Ask optionally name to the provider.
+        """
+
+
+class IOpenIDAskedUserInformation(Interface):
+    """Let OpenID plugin known which information have been asked.
+    """
+
+    def require():
+        """Return a list of required information.
+        """
+
+    def optional():
+        """Return a list of optional information.
+        """

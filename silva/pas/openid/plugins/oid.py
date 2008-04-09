@@ -2,23 +2,34 @@
 # See also LICENSE.txt
 # $Id$
 
+# Zope 2
 from Acquisition import aq_parent
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+from zExceptions import Redirect
+import transaction
+
+# Zope 3
+from zope.component import getUtility
+from zope.component.event import objectEventNotify
+
+# PAS
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import classImplements
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
-from silva.pas.openid.interfaces import IOpenIdExtractionPlugin
+
+# Silva
+from silva.pas.openid.interfaces import *
 from silva.pas.base.interfaces import IUserConverter
 from silva.pas.openid.store import ZopeStore
-from zExceptions import Redirect
-import transaction
+from silva.pas.openid.events import *
+
+# OpenID
 from openid.yadis.discover import DiscoveryFailure
 from openid.consumer.consumer import Consumer, SUCCESS
+
+# Python
 import logging
-
-from zope.component import getUtility
-
 import urlparse
 
 manage_addOpenIdPluginForm = PageTemplateFile("../www/openIdAddForm", 
@@ -29,8 +40,8 @@ logger = logging.getLogger("PluggableAuthService")
 def manage_addOpenIdPlugin(self, id, title='', REQUEST=None):
     """Add a OpenID plugin to a Pluggable Authentication Service.
     """
-    p=OpenIdPlugin(id, title)
-    self._setObject(p.getId(), p)
+    plugin = OpenIdPlugin(id, title)
+    self._setObject(plugin.getId(), plugin)
 
     if REQUEST is not None:
         REQUEST["RESPONSE"].redirect("%s/manage_workspace"
@@ -44,6 +55,14 @@ class OpenIdPlugin(BasePlugin):
 
     meta_type = "OpenID plugin"
     security = ClassSecurityInfo()
+
+    _properties = BasePlugin._properties + ({'id': 'policy_url',
+                                             'type': 'string',
+                                             'mode': 'w',
+                                             'label': 'Policy URL',
+                                             },)
+
+    policy_url = ''
 
     def __init__(self, id, title=None):
         self._setId(id)
@@ -70,12 +89,12 @@ class OpenIdPlugin(BasePlugin):
         cleared and filled with the found credentials.
         """
 
-        mode=request.form.get("openid.mode", None)
-        if mode=="id_res":
+        mode = request.form.get("openid.mode", None)
+        if mode == "id_res":
             # id_res means 'positive assertion' in OpenID, more commonly
             # describes as 'positive authentication'
             creds["openid.creds"] = request.form.copy()
-        elif mode=="cancel":
+        elif mode == "cancel":
             # cancel is a negative assertion in the OpenID protocol,
             # which means the user did not authorize correctly.
             pass
@@ -83,9 +102,9 @@ class OpenIdPlugin(BasePlugin):
 
     # IOpenIdExtractionPlugin implementation
     def initiateChallenge(self, identity_url, return_to=None):
-        consumer=self.getConsumer()
+        consumer = self.getConsumer()
         try:
-            result=consumer.begin(identity_url)
+            result = consumer.begin(identity_url)
         except DiscoveryFailure, e:
             logger.info("openid consumer discovery error for identity %s: %s",
                     identity_url, e[0])
@@ -101,7 +120,20 @@ class OpenIdPlugin(BasePlugin):
             return_to=self.getTrustRoot()
         self.REQUEST["SESSION"]['return_to'] = return_to
 
-        url=result.redirectURL(self.getTrustRoot(), return_to)
+        if self.policy_url:
+            result.addExtensionArg('sreg', 'policy_url', self.policy_url)
+
+        extra = IOpenIDAskedUserInformation(self.REQUEST)
+        if extra.require():
+            result.addExtensionArg('sreg', 
+                                   'required', 
+                                   ','.join(extra.require()))
+        if extra.optional():
+            result.addExtensionArg('sreg', 
+                                   'optional', 
+                                   ','.join(extra.optional()))
+
+        url = result.redirectURL(self.getTrustRoot(), return_to)
 
         # There is evilness here: we can not use a normal RESPONSE.redirect
         # since further processing of the request will happily overwrite
@@ -148,6 +180,8 @@ class OpenIdPlugin(BasePlugin):
                                       self.REQUEST.RESPONSE, 
                                       userid, 
                                       "")
+
+                objectEventNotify(OpenIDResultSuccess(self, result, userid))
                 return (userid, result.identity_url)
             else:
                 logger.info("OpenId Authentication for %s failed: %s",

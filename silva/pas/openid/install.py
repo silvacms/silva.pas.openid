@@ -67,7 +67,7 @@ def registerPASPlugins(pas):
 def unregisterPASPlugins(pas):
     """Remove PAS plugins.
     """
-    pas.manage_delObjects(['session', 'openid',])
+    pas.manage_delObjects(['session', 'openid', 'members',])
 
 
 if __name__ == '__main__':

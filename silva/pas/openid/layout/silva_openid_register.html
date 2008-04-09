@@ -13,7 +13,7 @@
     <h3>OpenID Registration</h3>
 
     <form method="post" action=""
-          tal:attributes="action string:${here/absolute_url}/login">
+          tal:attributes="action string:${here/absolute_url}/service_members/register_openid_user">
       <input type="hidden" name="came_from" value=""
              tal:attributes="value request/came_from | string:"/>
       <table cellpadding="2">
