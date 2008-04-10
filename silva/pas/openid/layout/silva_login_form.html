@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="public">
-    <h3> Please log in </h3>
+    <h3> Log in with an existing account </h3>
 
     <form method="post" action=""
           tal:attributes="action string:${here/absolute_url}/login">
@@ -35,6 +35,8 @@
       </table>
     </form>
 
+    <h3> Log in with OpenID </h3>
+
     <form method="post" action="#"
           tal:attributes="action string:${here/absolute_url}/login">
       <input type="hidden" name="came_from" value=""
@@ -58,7 +60,7 @@
       <input type="hidden" name="came_from" value=""
              tal:attributes="value request/came_from | string:"/>
       If you never logged before on this site using OpenID, you
-      need first to <input type="submit" value="register" />
+      need first to <input type="submit" value="Register your OpenID" />
       yourself.
     </form>
 
