@@ -33,6 +33,7 @@ class OpenIDTestCase(SilvaTestCase.SilvaTestCase):
         root.service_extensions.install('silva.pas.base')
         root.service_extensions.install('silva.pas.openid')
 
+
     def test_00install(self):
         """Test install.
         """
@@ -42,7 +43,23 @@ class OpenIDTestCase(SilvaTestCase.SilvaTestCase):
         service_extensions = root.service_extensions
         self.failUnless(service_extensions.is_installed('silva.pas.base'))
         self.failUnless(service_extensions.is_installed('silva.pas.openid'))
-                
+
+
+    def test_99uninstall(self):
+        """Test uninstall.
+        """
+
+        root = self.getRoot()
+        root.service_extensions.uninstall('silva.pas.openid')
+
+        # Should be uninstalled now
+        service_extensions = root.service_extensions
+        self.failIf(service_extensions.is_installed('silva.pas.openid'))
+
+        # But we can reinstall it
+        root.service_extensions.install('silva.pas.openid')
+        self.failUnless(service_extensions.is_installed('silva.pas.openid'))
+
 
 import unittest
 def test_suite():
@@ -60,7 +77,9 @@ def test_suite():
     ztc.installProduct('GenericSetup')
     ztc.installProduct('PluginRegistry')
     ztc.installProduct('PluggableAuthService')
+    ztc.installPackage('plone.session')
     ztc.installPackage('silva.pas.base')
+    ztc.installPackage('silva.pas.membership')
     ztc.installPackage('silva.pas.openid')
 
     # Run tests
