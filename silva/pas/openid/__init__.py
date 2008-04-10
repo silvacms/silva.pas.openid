@@ -7,6 +7,8 @@ from Products.PluggableAuthService.PluggableAuthService import registerMultiPlug
 from Products.Silva.ExtensionRegistry import extensionRegistry
 
 from plugins import oid
+import SilvaOpenIDMember
+
 registerMultiPlugin(oid.OpenIdPlugin.meta_type)
 
 import install
@@ -19,8 +21,14 @@ def initialize(context):
     context.registerClass(oid.OpenIdPlugin,
                           permission=ManageUsers,
                           constructors=
-                          (oid.manage_addOpenIdPluginForm,
-                           oid.manage_addOpenIdPlugin),
+                          (oid.manage_addOpenIDPluginForm,
+                           oid.manage_addOpenIDPlugin),
                           visibility=None,
                           icon="www/openid.png")
 
+    context.registerClass(SilvaOpenIDMember.SilvaOpenIDMember,
+                          permission=ManageUsers,
+                          constructors=
+                          (SilvaOpenIDMember.manage_addOpenIDMemberForm,
+                           SilvaOpenIDMember.manage_addOpenIDMember),
+                          icon="www/member.png")

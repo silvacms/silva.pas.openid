@@ -21,9 +21,11 @@ def install(root):
     # Add a OpenID registration page
     add_helper(root, 'silva_openid_register.html', globals(), zpt_add_helper, 0)
 
-    
     # Register PAS plugins
     registerPASPlugins(root.acl_users)
+
+    # Register views
+    registerViews(root.service_view_registry)
 
     alsoProvides(root.service_members, IOpenIDAware)
     
@@ -35,6 +37,9 @@ def uninstall(root):
     # FIXME: We should restore the previous login page
 
     unregisterPASPlugins(root.acl_users)
+
+    # Remove views
+    unregisterViews(root.service_view_registry)
 
     # We remove the registration page.
     root.manage_delObjects(['silva_openid_register.html',])
@@ -48,7 +53,7 @@ def registerPASPlugins(pas):
     """Register new PAS plugins.
     """
     pas.manage_addProduct['plone.session'].manage_addSessionPlugin('session')
-    pas.manage_addProduct['silva.pas.openid'].manage_addOpenIdPlugin('openid')
+    pas.manage_addProduct['silva.pas.openid'].manage_addOpenIDPlugin('openid')
     pas.manage_addProduct['silva.pas.membership'].manage_addMembershipPlugin('members')
 
     plugins = pas.plugins
@@ -62,6 +67,18 @@ def registerPASPlugins(pas):
 
     plugins.activatePlugin(IUserEnumerationPlugin, 'members')
 
+
+def registerViews(reg):
+    """Register Views.
+    """
+    reg.register('edit', 'Silva OpenID Member',
+                 ['edit', 'Member', 'SimpleMember'])
+
+
+def unregisterViews(reg):
+    """Unregister Views.
+    """
+    reg.unregister('edit', 'Silva OpenID Member')
 
 
 def unregisterPASPlugins(pas):

@@ -2,7 +2,8 @@
 # See also LICENSE.txt
 # $Id$
 
-from zope.interface import Interface
+from zope.interface import Interface, Attribute
+from Products.Silva.interfaces import IMember
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 
 class IOpenIdExtractionPlugin(IExtractionPlugin):
@@ -53,3 +54,12 @@ class IOpenIDAskedUserInformation(Interface):
     def optional():
         """Return a list of optional information.
         """
+
+class IOpenIDMember(IMember):
+    """This is an OpenID Member.
+    """
+
+    identity_url = Attribute("Identity URL of the user")
+    fully_registered = Attribute("Tell if the user complete the registration procedure")
+    application_date = Attribute("Date when the user starts his registration")
+    last_login_date = Attribute("Last login date of the user")

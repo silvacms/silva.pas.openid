@@ -2,8 +2,6 @@
 # See also LICENSE.txt
 # $Id$
 
-from zope.component import getUtility
-from silva.pas.base.interfaces import IUserConverter
 from silva.pas.openid.interfaces import IOpenIDAskUserInformation
 
 from Products.Five import BrowserView
@@ -31,13 +29,11 @@ class StartOpenIDRegistration(BrowserView):
             # Authenticate
             # direct lookup ?
             root.acl_users.validate(self.request)
+            # We should never be here.
             return
 
-        utility = getUtility(IUserConverter, name="openid")
-        converter = utility()
-        userid = converter.convert(id)
         members = root.Members
-        members.manage_addProduct['Silva'].manage_addSimpleMember(userid)
+        members.manage_addProduct['silva.pas.openid'].manage_addOpenIDMember(id)
 
         provider = IOpenIDAskUserInformation(self.request)
         provider.require('email')
@@ -47,6 +43,8 @@ class StartOpenIDRegistration(BrowserView):
         # Add some roles ?
 
         root.acl_users.validate(self.request)
+        # We should never be here.
+
 
         
 

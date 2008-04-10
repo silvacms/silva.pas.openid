@@ -32,12 +32,12 @@ from openid.consumer.consumer import Consumer, SUCCESS
 import logging
 import urlparse
 
-manage_addOpenIdPluginForm = PageTemplateFile("../www/openIdAddForm", 
-                globals(), __name__="manage_addOpenIdPluginForm")
+manage_addOpenIDPluginForm = PageTemplateFile("../www/openIDAddForm", 
+                globals(), __name__="manage_addOpenIDPluginForm")
 
 logger = logging.getLogger("PluggableAuthService")
 
-def manage_addOpenIdPlugin(self, id, title='', REQUEST=None):
+def manage_addOpenIDPlugin(self, id, title='', REQUEST=None):
     """Add a OpenID plugin to a Pluggable Authentication Service.
     """
     plugin = OpenIdPlugin(id, title)
