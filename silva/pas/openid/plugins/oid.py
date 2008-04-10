@@ -97,7 +97,7 @@ class OpenIdPlugin(BasePlugin):
         elif mode == "cancel":
             # cancel is a negative assertion in the OpenID protocol,
             # which means the user did not authorize correctly.
-            pass
+            objectEventNotify(OpenIDResultCancel(self, None, None))
 
 
     # IOpenIdExtractionPlugin implementation
@@ -186,6 +186,7 @@ class OpenIdPlugin(BasePlugin):
             else:
                 logger.info("OpenId Authentication for %s failed: %s",
                             result.identity_url, result.message)
+                objectEventNotify(OpenIDResultCancel(self, result, userid))
 
         return None
 
