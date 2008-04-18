@@ -18,20 +18,18 @@
     <h3>OpenID Registration</h3>
 
     <form method="post" action=""
-          tal:attributes="action string:${here/absolute_url}/service_members/register_openid_user">
+      tal:attributes="action string:${here/absolute_url}/service_members/register_openid_user">
       <input type="hidden" name="came_from" value=""
-             tal:attributes="value request/came_from | string:"/>
+        tal:attributes="value request/came_from | string:"/>
       <p>Enter the url of your OpenID, such as http://yourname.myopenid.com/:</p>
-      <table cellpadding="0" cellspacing="0">
+      <table class="access">
         <tr>
           <td><b>OpenID:</b>&nbsp;</td>
           <td><input type="text" name="__ac_identity_register" size="50" /></td>
         </tr>
         <tr>
           <td></td>
-          <td>
-            <input type="submit" value=" Register your OpenID " />
-          </td>
+          <td><input type="submit" value=" Register your OpenID " /></td>
         </tr>
       </table>
     </form>

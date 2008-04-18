@@ -22,7 +22,7 @@
       tal:attributes="action string:${here/absolute_url}/login">
       <input type="hidden" name="came_from" value=""
         tal:attributes="value request/came_from | string:"/>
-      <table cellpadding="0" cellspacing="0">
+      <table class="access">
         <tr>
           <td><b>Login:</b></td>
           <td><input type="text" name="__ac_name" size="30" /></td>
@@ -33,9 +33,7 @@
         </tr>
         <tr>
           <td></td>
-          <td>
-            <input type="submit" value=" Log In " />
-          </td>
+          <td><input type="submit" value=" Log In " /></td>
         </tr>
       </table>
     </form>
@@ -48,7 +46,7 @@
       <input type="hidden" name="came_from" value=""
              tal:attributes="value request/came_from | string:"/>
       <p>If you never logged in on this site before, first 
-        <input type="submit" value="Register your OpenID" /></p>
+        <input style="margin-top:0" type="submit" value="Register your OpenID" /></p>
     </form>
 
     <form method="post" action="#"
@@ -58,16 +56,14 @@
       <p>
        If you have logged in before enter the url of your OpenID:
       </p>
-      <table cellpadding="0" cellspacing="0">
+      <table class="access">
         <tr>
           <td><b>OpenID:</b>&nbsp;</td>
           <td><input type="text" name="__ac_identity_url" size="50" /></td>
         </tr>
         <tr>
           <td></td>
-          <td>
-            <input type="submit" value=" Log in " />
-          </td>
+          <td><input type="submit" value=" Log in " /></td>
         </tr>
       </table>
     </form>
