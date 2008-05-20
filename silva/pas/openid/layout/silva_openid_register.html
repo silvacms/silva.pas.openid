@@ -28,12 +28,13 @@
       <input type="hidden" name="came_from" value=""
         tal:attributes="value request/came_from | string:"/>
       <table class="access">
-        <tr>
-          <td><b>Captcha:</b></td>
-          <td>
-              <tal:captcha tal:define="captcha nocall:here/@@captcha"
-                           tal:content="structure captcha/image_tag">
-               </tal:captcha>
+        <td><b>Captcha:</b></td>
+          <td tal:define="captcha nocall:here/@@captcha">
+              <tal:captcha tal:content="structure captcha/image_tag" />
+              <div class="captchaAudio">
+                 <a href="#" target="_blank"
+                    tal:attributes="href captcha/audio_url">Audio version</a>
+              </div>
           </td>
         </tr>
         <tr>
