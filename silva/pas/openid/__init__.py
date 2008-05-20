@@ -16,7 +16,7 @@ import install
 def initialize(context):
     extensionRegistry.register(
         'silva.pas.openid', 'Silva OpenID Support', context, [],
-        install, depends_on='silva.pas.base')
+        install, depends_on=('silva.pas.base', 'silva.captcha',))
 
     context.registerClass(oid.OpenIdPlugin,
                           permission=ManageUsers,
