@@ -7,6 +7,7 @@
   <include package="silva.pas.base" />
   <include package="silva.pas.membership" />
   <include package="plone.session" />
+  <include package="silva.captcha" />
 
   <include package=".browser" />
 

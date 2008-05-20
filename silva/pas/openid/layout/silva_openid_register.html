@@ -17,12 +17,35 @@
 
     <h3>OpenID Registration</h3>
 
+    <p style="color: red; font-weight: bold" 
+       tal:condition="request/openid_status | nothing"
+       tal:content="request/openid_status">
+      Status
+    </p>
+
     <form method="post" action=""
       tal:attributes="action string:${here/absolute_url}/service_members/register_openid_user">
       <input type="hidden" name="came_from" value=""
         tal:attributes="value request/came_from | string:"/>
-      <p>Enter the url of your OpenID, such as http://yourname.myopenid.com/:</p>
       <table class="access">
+        <tr>
+          <td><b>Captcha:</b></td>
+          <td>
+              <tal:captcha tal:define="captcha nocall:here/@@captcha"
+                           tal:content="structure captcha/image_tag">
+               </tal:captcha>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><p>You need to recopy the captcha bellow:</p></td>
+        </tr>
+        <tr>
+          <td><b>Captcha validation:</b></td>
+          <td><input type="text" name="__ac_identity_register_captcha" size="20" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><p>Enter the url of your OpenID, such as http://yourname.myopenid.com/:</p></td>
+        </tr>
         <tr>
           <td><b>OpenID:</b>&nbsp;</td>
           <td><input type="text" name="__ac_identity_register" size="50" /></td>
