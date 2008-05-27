@@ -9,7 +9,7 @@ version = '1.0'
 
 setup(name='silva.pas.openid',
       version=version,
-      description="Silva OpenID suport",
+      description="OpenID suport for Silva",
       long_description= open('README.txt').read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
