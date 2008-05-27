@@ -1,8 +1,8 @@
 Copyright (c) 2008, Infrae. All rights reserved.
 See also LICENSE.txt
 
-Silva OpenID Support
---------------------
+OpenID Support for Silva
+------------------------
 
 This extension provide a full support for OpenID in Silva. This rely
 on PluggableAuthService and ``silva.pas.base``. 
