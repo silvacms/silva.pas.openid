@@ -11,7 +11,7 @@ After installing the extension, users would be able to logon on Silva
 using an OpenID identity. First, users will have to register, with an
 form protected by a captcha. This registration step are going to fetch
 available information about the user from the OpenID provider. After
-registration, site manager can attributes roles to users, and check
+registration, site managers can attributes roles to users, and check
 information about them on theirs Silva member objects.
 
 This extension require at least `Silva`_ 2.0.7 or higher.
