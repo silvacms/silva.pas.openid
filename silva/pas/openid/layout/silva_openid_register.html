@@ -43,6 +43,7 @@
           <td><input type="text" name="__ac_identity_register" size="50" /></td>
         </tr>
         <td><b>Captcha:</b></td>
+        <tr>
           <td tal:define="captcha nocall:here/@@captcha">
             <tal:captcha tal:content="structure captcha/image_tag" />
             <div class="captchaAudio">
