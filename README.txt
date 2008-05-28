@@ -62,3 +62,8 @@ The latest version is available in a `Subversion repository
 .. _Silva: http://infrae.com/products/silva
 
 
+Credits
+-------
+Silva's OpenID integration was sponsored by Marc Petitmermet, who’s at the 
+Department of Materials at ETH Zürich (http://www.mat.ethz.ch/ but it was 
+funded from another source). 
