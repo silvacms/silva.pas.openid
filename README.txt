@@ -65,5 +65,5 @@ The latest version is available in a `Subversion repository
 Credits
 -------
 Silva's OpenID integration was sponsored by Marc Petitmermet, who's at the 
-Department of Materials at ETH ZŸrich (http://www.mat.ethz.ch/ but it was 
+Department of Materials at ETH Zurich (http://www.mat.ethz.ch/ but it was 
 funded from another source). 
