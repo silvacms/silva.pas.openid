@@ -14,7 +14,7 @@ available information about the user from the OpenID provider. After
 registration, site managers can attributes roles to users, and check
 information about them on theirs Silva member objects.
 
-This extension require at least `Silva`_ 2.0.7 or higher.
+This extension require at least `Silva`_ 2.1a or higher.
 
 Installation
 ------------
@@ -64,6 +64,6 @@ The latest version is available in a `Subversion repository
 
 Credits
 -------
-Silva's OpenID integration was sponsored by Marc Petitmermet, who’s at the 
+Silva's OpenID integration was sponsored by Marc Petitmermet, who's at the 
 Department of Materials at ETH Zürich (http://www.mat.ethz.ch/ but it was 
 funded from another source). 
