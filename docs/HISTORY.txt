@@ -1,6 +1,10 @@
 Changelog
 =========
 
+* Add translation marker,
+
+* Add feedback from silva.pas.base.
+
 1.0.1 (02/06/2008)
 ------------------
 
