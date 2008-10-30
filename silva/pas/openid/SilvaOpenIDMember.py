@@ -59,8 +59,9 @@ def manage_addOpenIDMember(self, identity_url, REQUEST=None):
     converter = utility()
     userid = converter.convert(identity_url)
 
-    object = SilvaOpenIDMember(identity_url, userid)
-    self._setObject(userid, object)
-    object.sec_assign(userid, 'ChiefEditor')
+    user = SilvaOpenIDMember(identity_url, userid)
+    self._setObject(userid, user)
+    user = getattr(self, userid)
+    user.manage_addLocalRoles(id, ['ChiefEditor'])
     add_and_edit(self, userid, REQUEST)
     return ''

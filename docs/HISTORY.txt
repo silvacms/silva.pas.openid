@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1.1 (unreleased)
+------------------
+
+* Fix issue with Silva 2.1.1 and newer.
+
 1.1 (04/06/2008)
 ----------------
 
