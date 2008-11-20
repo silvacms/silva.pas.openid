@@ -31,7 +31,7 @@ setup(name='silva.pas.openid',
                         "silva.pas.base",
                         "silva.pas.membership",
                         "silva.captcha",
-                        "plone.session",
+                        "plone.session == 1.2",
                         "elementtree",
                         "setuptools"],
       )
