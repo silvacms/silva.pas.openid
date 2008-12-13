@@ -17,7 +17,7 @@
 
     <h3 i18n:translate="">OpenID Registration</h3>
 
-    <p style="color: red; font-weight: bold" 
+    <p style="color: red; font-weight: bold"
        tal:condition="request/openid_status | nothing"
        tal:content="request/openid_status">
       Status
@@ -26,8 +26,8 @@
     <p i18n:translate="">
       If this is the first time you login with OpenID on this site we'll
       request basic information, such as your full name. If it's available and
-      you allow us to use it, your name will then appear in your postings.
-      Otherwise your OpenID will be used. 
+      you allow us to use it, your full name will then appear in your postings.
+      Otherwise your OpenID will be used.
     </p>
 
     <form method="post" action=""
@@ -38,8 +38,7 @@
         <tr>
           <td colspan="2">
             <p i18n:translate="">
-              Enter the url of your OpenID, such as
-              http://yourname.myopenid.com/:
+              Enter the url of your OpenID, such as http://yourname.myopenid.com/:
             </p>
           </td>
         </tr>
@@ -63,8 +62,8 @@
         <tr>
           <td colspan="2">
             <p i18n:translate="">
-              To be sure you're not a spambot, please type in the
-              letters/numbers in the image or audio:
+              To be sure you're not a spambot, please enter the
+              letters/numbers in the image (or audio):
             </p>
           </td>
         </tr>
