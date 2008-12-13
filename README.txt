@@ -4,17 +4,17 @@ See also LICENSE.txt
 OpenID Support for Silva
 ------------------------
 
-This extension provide a full support for OpenID in Silva. This rely
-on PluggableAuthService and ``silva.pas.base``. 
+This extension provides full support for OpenID in Silva. It relies on 
+PluggableAuthService and ``silva.pas.base``. 
 
-After installing the extension, users would be able to logon on Silva
-using an OpenID identity. First, users will have to register, with an
-form protected by a captcha. This registration step are going to fetch
-available information about the user from the OpenID provider. After
-registration, site managers can attributes roles to users, and check
-information about them on theirs Silva member objects.
+After installing the extension, visitors will be able to login to Silva
+using an OpenID identity. First, visitors will have to register their OpenID
+via a form protected by a captcha. This registration step will fetch the
+available information about the user from the OpenID provider and add it to 
+the Silva member object. After registration, site managers can assign roles 
+to the new users.
 
-This extension require at least `Silva`_ 2.1a or higher.
+This extension requires at least `Silva`_ 2.1a or higher.
 
 Installation
 ------------
@@ -65,5 +65,5 @@ The latest version is available in a `Subversion repository
 Credits
 -------
 Silva's OpenID integration was sponsored by Marc Petitmermet, who's at the 
-Department of Materials at ETH Zurich (http://www.mat.ethz.ch/ but it was 
-funded from another source). 
+Department of Materials at ETH Zurich (http://www.mat.ethz.ch/) but the 
+funding came from another source. 
