@@ -4,12 +4,11 @@
 
 from zope.interface import alsoProvides, noLongerProvides
 
-from Products.PluggableAuthService.interfaces.plugins import *
-from Products.Silva.install import add_fss_directory_view, add_helper
-from Products.Silva.install import zpt_add_helper
+from Products.PluggableAuthService.interfaces import plugins
+from Products.Silva.install import add_helper, zpt_add_helper
 from silva.pas.base.interfaces import IPASMemberService
+from silva.pas.openid.interfaces import IOpenIDAware
 
-from interfaces import IOpenIDAware
 
 def install(root):
     """Installation method for OpenID support
@@ -28,8 +27,8 @@ def install(root):
     registerViews(root.service_view_registry)
 
     alsoProvides(root.service_members, IOpenIDAware)
-    
-    
+
+
 def uninstall(root):
     """Uninstall OpenID support
     """
@@ -44,7 +43,7 @@ def uninstall(root):
     # We remove the registration page.
     root.manage_delObjects(['silva_openid_register.html',])
     noLongerProvides(root.service_members, IOpenIDAware)
-    
+
 def is_installed(root):
     return IOpenIDAware.providedBy(root.service_members)
 
@@ -56,16 +55,15 @@ def registerPASPlugins(pas):
     pas.manage_addProduct['silva.pas.openid'].manage_addOpenIDPlugin('openid')
     pas.manage_addProduct['silva.pas.membership'].manage_addMembershipPlugin('members')
 
-    plugins = pas.plugins
-    plugins.activatePlugin(IExtractionPlugin, 'session')
-    plugins.activatePlugin(IAuthenticationPlugin, 'session')
-    plugins.activatePlugin(ICredentialsResetPlugin, 'session')
-    plugins.activatePlugin(ICredentialsUpdatePlugin, 'session')
+    pas.plugins.activatePlugin(plugins.IExtractionPlugin, 'session')
+    pas.plugins.activatePlugin(plugins.IAuthenticationPlugin, 'session')
+    pas.plugins.activatePlugin(plugins.ICredentialsResetPlugin, 'session')
+    pas.plugins.activatePlugin(plugins.ICredentialsUpdatePlugin, 'session')
 
-    plugins.activatePlugin(IExtractionPlugin, 'openid')
-    plugins.activatePlugin(IAuthenticationPlugin, 'openid')
+    pas.plugins.activatePlugin(plugins.IExtractionPlugin, 'openid')
+    pas.plugins.activatePluginI(plugins.AuthenticationPlugin, 'openid')
 
-    plugins.activatePlugin(IUserEnumerationPlugin, 'members')
+    pas.plugins.activatePlugin(plugins.IUserEnumerationPlugin, 'members')
 
 
 def registerViews(reg):

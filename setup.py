@@ -5,7 +5,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1.1'
+version = '1.1.2dev'
 
 setup(name='silva.pas.openid',
       version=version,
@@ -31,8 +31,7 @@ setup(name='silva.pas.openid',
                         "silva.pas.base",
                         "silva.pas.membership",
                         "silva.captcha",
-                        "plone.session == 1.2",
+                        "plone.session <= 2.99",
                         "elementtree",
                         "setuptools"],
       )
-

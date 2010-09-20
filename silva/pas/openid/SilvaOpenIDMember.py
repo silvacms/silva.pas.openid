@@ -17,6 +17,7 @@ from Products.Silva import SilvaPermissions
 from silva.pas.base.interfaces import IUserConverter
 from interfaces import IOpenIDMember
 
+
 class SilvaOpenIDMember(SimpleMember):
 
     implements(IOpenIDMember)
@@ -48,9 +49,11 @@ class SilvaOpenIDMember(SimpleMember):
 
 Globals.InitializeClass(SilvaOpenIDMember)
 
+
 manage_addOpenIDMemberForm = PageTemplateFile(
     "www/openIDMemberAdd", globals(),
     __name__='manage_addOpenIDMemberForm')
+
 
 def manage_addOpenIDMember(self, identity_url, REQUEST=None):
     """Add a OpenID Member.
