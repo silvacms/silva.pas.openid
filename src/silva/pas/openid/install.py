@@ -61,7 +61,7 @@ def registerPASPlugins(pas):
     pas.plugins.activatePlugin(plugins.ICredentialsUpdatePlugin, 'session')
 
     pas.plugins.activatePlugin(plugins.IExtractionPlugin, 'openid')
-    pas.plugins.activatePluginI(plugins.AuthenticationPlugin, 'openid')
+    pas.plugins.activatePlugin(plugins.IAuthenticationPlugin, 'openid')
 
     pas.plugins.activatePlugin(plugins.IUserEnumerationPlugin, 'members')
 
