@@ -17,7 +17,7 @@
 
     <h3 i18n:translate=""> Log in with an existing account </h3>
 
-    <p style="color: red; font-weight: bold" 
+    <p style="color: red; font-weight: bold"
        tal:condition="request/login_status | nothing"
        tal:content="request/login_status">
       Status
@@ -29,16 +29,18 @@
         tal:attributes="value request/came_from | string:"/>
       <table class="access">
         <tr>
-          <td><b i18n:translate="">Login:</b></td>
+          <td class="form-label"><b i18n:translate="">Login:</b></td>
           <td><input type="text" name="__ac_name" size="30" /></td>
         </tr>
         <tr>
-          <td><b i18n:translate="">Password:</b>&nbsp;</td>
+          <td class="form-label"><b i18n:translate="">Password:</b>&nbsp;</td>
           <td><input type="password" name="__ac_password" size="30" /></td>
         </tr>
         <tr>
-          <td></td>
-          <td><input type="submit" value=" Log In "
+          <td><input class="button cancel" type="button" value="Cancel"
+            onClick="history.go(-1)"
+            i18n:attributes="value" /></td>
+          <td><input type="submit" value=" Log in "
                      i18n:attributes="value" /></td>
         </tr>
       </table>
@@ -51,8 +53,8 @@
           tal:attributes="action string:${here/absolute_url}/silva_openid_register.html">
       <input type="hidden" name="came_from" value=""
              tal:attributes="value request/came_from | string:"/>
-      <p i18n:translate="">If you never logged in on this site before, first 
-        <input style="margin-top:0" type="submit" value="Register your OpenID"
+      <p i18n:translate="">If you never logged in on this site before, first
+        <input style="margin-top:0" type="submit" value="Register with OpenID"
                i18n:attributes="value"/>
       </p>
     </form>
@@ -66,12 +68,16 @@
       </p>
       <table class="access">
         <tr>
-          <td><b i18n:translate="">OpenID:</b>&nbsp;</td>
-          <td><input type="text" name="__ac_identity_url" size="50" /></td>
+          <td class="form-label"><b i18n:translate="">OpenID:</b>&nbsp;</td>
+          <td><input type="text" name="__ac_identity_url" size="45" /></td>
         </tr>
         <tr>
-          <td></td>
-          <td><input type="submit" value=" Log in " 
+          <td class="form-label"><input class="button cancel" type="button" value="Cancel"
+            onClick="history.go(-1)"
+            i18n:attributes="value" /></td>
+          <td><input type="submit" value=" Log In "
+                     i18n:attributes="value" /></td>
+          <td><input type="submit" value=" Log in "
                      i18n:attributes="value" /></td>
         </tr>
       </table>
