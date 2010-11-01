@@ -43,11 +43,20 @@
           </td>
         </tr>
         <tr>
-          <td><b i18n:translate="">OpenID:</b>&nbsp;</td>
+          <td class="form-label"><b i18n:translate="">OpenID:</b></td>
           <td><input type="text" name="__ac_identity_register" size="50" /></td>
         </tr>
         <tr>
-          <td><b i18n:translate="">Captcha:</b></td>
+          <td class="form-label"></td>
+          <td>
+            <p i18n:translate="">
+              To be sure you're not a spambot, please enter the
+              letters/numbers in the image (or audio):
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="form-label"><b i18n:translate="">Captcha:</b></td>
           <td tal:define="captcha nocall:here/@@captcha">
             <tal:captcha tal:content="structure captcha/image_tag" />
             <div class="captchaAudio">
@@ -60,24 +69,16 @@
           </td>
         </tr>
         <tr>
-          <td colspan="2">
-            <p i18n:translate="">
-              To be sure you're not a spambot, please enter the
-              letters/numbers in the image (or audio):
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <td><b i18n:translate="">Captcha validation:</b></td>
-          <td>
-            <input type="text" name="__ac_identity_register_captcha" size="20" />
+          <td><b i18n:translate="">Validation:</b></td>
+          <td class="form-label">
+            <input type="text" name="__ac_identity_register_captcha" size="50" />
           </td>
         </tr>
         <tr>
           <td></td>
           <td>
-            <input type="submit" value=" Register your OpenID "
-                   i18n:attributes="value" />
+            <input type="submit" value=" Register "
+              i18n:attributes="value" />
           </td>
         </tr>
       </table>
