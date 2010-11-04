@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
-      xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      i18n:domain="Silva">
+  xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  i18n:domain="Silva">
 <head>
   <title>OpenID Registration</title>
   <link rel="stylesheet" href="frontend.css" type="text/css"
@@ -33,7 +33,7 @@
     <form method="post" action=""
       tal:attributes="action string:${here/absolute_url}/service_members/register_openid_user">
       <input type="hidden" name="came_from" value=""
-             tal:attributes="value request/came_from | string:"/>
+        tal:attributes="value request/came_from | string:"/>
       <table class="access">
         <tr>
           <td colspan="2">
@@ -43,7 +43,7 @@
           </td>
         </tr>
         <tr>
-          <td class="form-label"><b i18n:translate="">OpenID:</b></td>
+          <td class="form-label"><b i18n:translate="">OpenID:</b>&nbsp;</td>
           <td><input type="text" name="__ac_identity_register" size="50" /></td>
         </tr>
         <tr>
@@ -76,7 +76,11 @@
           </td>
         </tr>
         <tr>
-          <td></td>
+          <td>
+            <input class="button cancel" type="button" value="Return"
+              onClick="history.go(-1)"
+              i18n:attributes="value" />
+          </td>
           <td>
             <input type="submit" value=" Register "
               i18n:attributes="value" />
