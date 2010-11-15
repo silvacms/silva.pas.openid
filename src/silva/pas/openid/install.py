@@ -51,19 +51,27 @@ def is_installed(root):
 def registerPASPlugins(pas):
     """Register new PAS plugins.
     """
-    pas.manage_addProduct['plone.session'].manage_addSessionPlugin('session')
-    pas.manage_addProduct['silva.pas.openid'].manage_addOpenIDPlugin('openid')
-    pas.manage_addProduct['silva.pas.membership'].manage_addMembershipPlugin('members')
+    plugin_ids = pas.objectIds()
+    if 'session' not in plugin_ids:
+        pas.manage_addProduct['plone.session'].manage_addSessionPlugin('session')
+    if 'openid' not in plugin_ids:
+        pas.manage_addProduct['silva.pas.openid'].manage_addOpenIDPlugin('openid')
+    if 'members' not in plugin_ids:
+        pas.manage_addProduct['silva.pas.membership'].manage_addMembershipPlugin('members')
 
-    pas.plugins.activatePlugin(plugins.IExtractionPlugin, 'session')
-    pas.plugins.activatePlugin(plugins.IAuthenticationPlugin, 'session')
-    pas.plugins.activatePlugin(plugins.ICredentialsResetPlugin, 'session')
-    pas.plugins.activatePlugin(plugins.ICredentialsUpdatePlugin, 'session')
+    def registerPluginIfNew(ptype, pid):
+        if pid not in pas.plugins.listPluginIds(ptype):
+            pas.plugins.activatePlugin(ptype, pid)
 
-    pas.plugins.activatePlugin(plugins.IExtractionPlugin, 'openid')
-    pas.plugins.activatePlugin(plugins.IAuthenticationPlugin, 'openid')
+    registerPluginIfNew(plugins.IExtractionPlugin, 'session')
+    registerPluginIfNew(plugins.IAuthenticationPlugin, 'session')
+    registerPluginIfNew(plugins.ICredentialsResetPlugin, 'session')
+    registerPluginIfNew(plugins.ICredentialsUpdatePlugin, 'session')
 
-    pas.plugins.activatePlugin(plugins.IUserEnumerationPlugin, 'members')
+    registerPluginIfNew(plugins.IExtractionPlugin, 'openid')
+    registerPluginIfNew(plugins.IAuthenticationPlugin, 'openid')
+
+    registerPluginIfNew(plugins.IUserEnumerationPlugin, 'members')
 
 
 def registerViews(reg):
