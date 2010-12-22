@@ -1,8 +1,6 @@
-Copyright (c) 2008, Infrae. All rights reserved.
-See also LICENSE.txt
-
+========================
 OpenID Support for Silva
-------------------------
+========================
 
 This extension provides full support for OpenID in Silva. It relies on 
 PluggableAuthService and ``silva.pas.base``. 
@@ -14,13 +12,13 @@ available information about the user from the OpenID provider and add it to
 the Silva member object. After registration, site managers can assign roles 
 to the new users.
 
-This extension requires at least `Silva`_ 2.1a or higher.
+This extension requires at least `Silva`_ 2.1.1 or higher.
 
 Installation
-------------
+============
 
 If you installed Silva using buildout, by getting one from the `Infrae
-SVN`_ repository, or creating one using `Paster`_, you should edit your
+SVN`_ repository, or creating one using Paster, you should edit your
 buildout configuration file ``buildout.cfg`` to add or edit the
 following section::
 
@@ -41,29 +39,13 @@ After you can restart buildout::
   $ ./bin/buildout
 
 
-If you don't use buildout, you can install this extension using
-``easy_install``, and after create a file called
-``silva.pas.openid-configure.zcml`` in the
-``/path/to/instance/etc/package-includes`` directory.  This file will
-responsible to load the extension and should only contain this::
-
-  <include package="silva.pas.openid" />
-
-
-Latest version
---------------
-
-The latest version is available in a `Subversion repository
-<https://svn.infrae.com/silva.pas.openid/trunk#egg=silva.pas.openid-dev>`_.
-
-
 .. _Infrae SVN: https://svn.infrae.com/buildout/silva/
-.. _Paster: https://svn.infrae.com/buildout/silva/INSTALL.txt
 .. _Silva: http://infrae.com/products/silva
 
 
 Credits
--------
+=======
+
 Silva's OpenID integration was sponsored by Marc Petitmermet, who's at the 
 Department of Materials at ETH Zurich (http://www.mat.ethz.ch/) but the 
 funding came from another source. 
