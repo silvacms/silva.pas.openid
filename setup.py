@@ -5,7 +5,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.3dev'
+version = '1.2'
 
 setup(name='silva.pas.openid',
       version=version,
