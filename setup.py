@@ -5,7 +5,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.3dev'
+version = '3.0dev'
 
 setup(name='silva.pas.openid',
       version=version,
@@ -28,11 +28,11 @@ setup(name='silva.pas.openid',
       namespace_packages=['silva', 'silva.pas'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=["python-openid >= 2.1",
-                        "silva.pas.base",
-                        "silva.pas.membership",
-                        "silva.captcha",
-                        "plone.session <= 2.99",
-                        "elementtree",
-                        "setuptools"],
+      install_requires=[
+        "python-openid >= 2.1",
+        "silva.pas.base",
+        "silva.pas.membership",
+        "silva.captcha",
+        "elementtree",
+        "setuptools"],
       )
