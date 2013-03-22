@@ -126,7 +126,7 @@ class OpenIdPlugin(BasePlugin):
                 return_to = urlparse.urlunparse(result_parts)
         if not return_to:
             return_to = site_url
-        print return_to, site_url
+
         request["SESSION"]['return_to'] = return_to
 
         if self.policy_url:
