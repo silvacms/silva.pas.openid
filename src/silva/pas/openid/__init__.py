@@ -3,21 +3,17 @@
 # $Id$
 
 from AccessControl.Permissions import manage_users as ManageUsers
-from Products.PluggableAuthService.PluggableAuthService import registerMultiPlugin
-from Products.Silva.ExtensionRegistry import extensionRegistry
-
-from plugins import oid
-import SilvaOpenIDMember
-
-registerMultiPlugin(oid.OpenIdPlugin.meta_type)
+from silva.core import conf as silvaconf
 
 import install
 
-def initialize(context):
-    extensionRegistry.register(
-        'silva.pas.openid', 'Silva OpenID Support', context, [],
-        install, depends_on=('silva.pas.base', 'silva.captcha',))
+silvaconf.extension_name("silva.pas.openid")
+silvaconf.extension_title("Silva OpenID Support")
+silvaconf.extension_depends(["Silva", 'silva.pas.base'])
 
+
+def initialize(context):
+    from .plugins import oid
     context.registerClass(oid.OpenIdPlugin,
                           permission=ManageUsers,
                           constructors=
@@ -25,10 +21,3 @@ def initialize(context):
                            oid.manage_addOpenIDPlugin),
                           visibility=None,
                           icon="www/openid.png")
-
-    context.registerClass(SilvaOpenIDMember.SilvaOpenIDMember,
-                          permission=ManageUsers,
-                          constructors=
-                          (SilvaOpenIDMember.manage_addOpenIDMemberForm,
-                           SilvaOpenIDMember.manage_addOpenIDMember),
-                          icon="www/member.png")

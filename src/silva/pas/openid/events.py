@@ -28,7 +28,7 @@ class OpenIDResult(object):
 
 
 class OpenIDResultSuccess(OpenIDResult):
-    
+
     implements(IOpenIDResultSuccess)
 
     def __init__(self, plugin, result, userid):
@@ -41,6 +41,5 @@ class IOpenIDResultCancel(IOpenIDResult):
     """
 
 class OpenIDResultCancel(OpenIDResult):
-    
-    implements(IOpenIDResultCancel)
 
+    implements(IOpenIDResultCancel)

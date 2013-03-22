@@ -1,0 +1,109 @@
+<div class="login-form"
+     i18n:domain="silva">
+
+  <h1 i18n:translate="">Protected area</h1>
+
+  <div style="color:#f00; font-weight:bold;"
+       tal:define="message view.message"
+       tal:condition="message">
+    <!-- override the local style with a div.warning selector in your css -->
+    <div class="feedback warning"
+         tal:content="message">
+      status
+    </div>
+  </div>
+
+  <p tal:condition="not view.message"
+    i18n:translate="">
+    The page you are trying to visit has restricted access. Please
+    authenticate.
+  </p>
+
+  <form method="post" action="#" name="login_form"
+        tal:attributes="action view.action">
+    <input type="hidden" name="__ac.field.origin" value=""
+           tal:attributes="value request.get('__ac.field.origin')"/>
+    <input type="hidden" name="__ac.field.secret" value=""
+           tal:attributes="value request.get('__ac.field.secret')"/>
+
+    <div class="form">
+      <div class="form-title">
+        <label for="name" i18n:translate="">Log in to the site</label>
+      </div>
+      <div class="form-element">
+        <div class="form-label">
+          <label for="name" i18n:translate="">Username</label>
+        </div>
+        <div class="form-field">
+          <input type="text" size="30" id="name" name="__ac.field.name"
+                 autofocus="autofocus" />
+        </div>
+      </div>
+      <div class="form-element">
+        <div class="form-label">
+          <label for="password" i18n:translate="">Password</label>
+        </div>
+        <div class="form-field">
+          <input type="password"  size="30"
+                 id="password" name="__ac.field.password" />
+        </div>
+      </div>
+      <div class="form-element">
+        <div class="form-field form-actions">
+          <input class="button cancel" type="button" value="Cancel"
+            name="cancel" onClick="history.go(-1)"
+            i18n:attributes="value" />
+          <input class="button submit" type="submit" value="Log in"
+                 name="login"
+                 i18n:attributes="value" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      <!-- Update location if there is an hash tag -->
+      if (window.location.hash.length) {
+          var origin = document.getElementsByName('__ac.field.origin');
+          if (origin.length) {
+              var target = origin[0].getAttribute('value');
+              origin[0].setAttribute('value', target + window.location.hash);
+          };
+      };
+    </script>
+  </form>
+
+    <h3 i18n:translate=""> Log in with your OpenID </h3>
+
+    <form method="post" action="${view.url}/openid_register_new_user.html">
+      <input type="hidden" name="__ac.field.origin" value=""
+             tal:attributes="value request.get('__ac.field.origin')"/>
+
+      <p i18n:translate="">If you never logged in on this site before, first
+        <input style="margin-top:0" type="submit" value="Register with OpenID"
+               i18n:attributes="value"/>
+      </p>
+    </form>
+
+    <form method="post" action="#"
+          tal:attributes="action view.action">
+      <input type="hidden" name="__ac.field.origin" value=""
+             tal:attributes="value request.get('__ac.field.origin')"/>
+      <p i18n:translate="">
+        If you have logged in before enter the url of your OpenID:
+      </p>
+      <table class="access">
+        <tr>
+          <td class="form-label"><b i18n:translate="">OpenID:</b>&nbsp;</td>
+          <td>
+            <input type="text" name="__ac.field.identity.url" size="45" />
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><input type="submit" value=" Log in "
+                     i18n:attributes="value" /></td>
+        </tr>
+      </table>
+    </form>
+
+</div>

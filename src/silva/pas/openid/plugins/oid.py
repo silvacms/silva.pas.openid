@@ -17,6 +17,8 @@ from zope.component.event import objectEventNotify
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.utils import classImplements
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
+from Products.PluggableAuthService.PluggableAuthService import registerMultiPlugin
+
 
 # Silva
 from silva.pas.openid.interfaces import *
@@ -30,9 +32,8 @@ from openid.consumer.consumer import Consumer, SUCCESS
 
 # Python
 import logging
-import urlparse
 
-manage_addOpenIDPluginForm = PageTemplateFile("../www/openIDAddForm", 
+manage_addOpenIDPluginForm = PageTemplateFile("../www/openIDAddForm",
                 globals(), __name__="manage_addOpenIDPluginForm")
 
 logger = logging.getLogger("PluggableAuthService")
@@ -66,20 +67,17 @@ class OpenIdPlugin(BasePlugin):
 
     def __init__(self, id, title=None):
         self._setId(id)
-        self.title=title
-        self.store=ZopeStore()
-
+        self.title = title
+        self.store = ZopeStore()
 
     def getTrustRoot(self):
-        pas=self._getPAS()
-        site=aq_parent(pas)
+        pas = self._getPAS()
+        site = aq_parent(pas)
         return site.absolute_url()
-
 
     def getConsumer(self):
         session=self.REQUEST["SESSION"]
         return Consumer(session, self.store)
-
 
     def extractOpenIdServerResponse(self, request, creds):
         """Process incoming redirect from an OpenId server.
@@ -99,7 +97,6 @@ class OpenIdPlugin(BasePlugin):
             # which means the user did not authorize correctly.
             objectEventNotify(OpenIDResultCancel(self, None, None))
 
-
     # IOpenIdExtractionPlugin implementation
     def initiateChallenge(self, identity_url, return_to=None):
         consumer = self.getConsumer()
@@ -115,7 +112,7 @@ class OpenIdPlugin(BasePlugin):
             pass
 
         if return_to is None:
-            return_to=self.REQUEST.form.get("came_from", None)
+            return_to=self.REQUEST.form.get("__ac.field.origin", None)
         if not return_to:
             return_to=self.getTrustRoot()
         self.REQUEST["SESSION"]['return_to'] = return_to
@@ -125,12 +122,12 @@ class OpenIdPlugin(BasePlugin):
 
         extra = IOpenIDAskedUserInformation(self.REQUEST)
         if extra.require():
-            result.addExtensionArg('sreg', 
-                                   'required', 
+            result.addExtensionArg('sreg',
+                                   'required',
                                    ','.join(extra.require()))
         if extra.optional():
-            result.addExtensionArg('sreg', 
-                                   'optional', 
+            result.addExtensionArg('sreg',
+                                   'optional',
                                    ','.join(extra.optional()))
 
         url = result.redirectURL(self.getTrustRoot(), return_to)
@@ -154,7 +151,7 @@ class OpenIdPlugin(BasePlugin):
         from it, or a redirect from a OpenID server.
         """
         creds = {}
-        identity = request.form.get("__ac_identity_url", '').strip()
+        identity = request.form.get("__ac.field.identity.url", '').strip()
         if identity:
             self.initiateChallenge(identity)
             return creds
@@ -174,11 +171,11 @@ class OpenIdPlugin(BasePlugin):
                                        self.REQUEST["SESSION"]['return_to'])
             userid = self._identityToId(result.identity_url)
 
-            if result.status==SUCCESS:
+            if result.status == SUCCESS:
                 pas = self._getPAS()
                 pas.updateCredentials(self.REQUEST,
-                                      self.REQUEST.RESPONSE, 
-                                      userid, 
+                                      self.REQUEST.RESPONSE,
+                                      userid,
                                       "")
 
                 objectEventNotify(OpenIDResultSuccess(self, result, userid))
@@ -197,5 +194,4 @@ class OpenIdPlugin(BasePlugin):
 
 
 classImplements(OpenIdPlugin, IOpenIdExtractionPlugin, IAuthenticationPlugin)
-
-
+registerMultiPlugin(OpenIdPlugin.meta_type)

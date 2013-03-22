@@ -5,46 +5,32 @@
 from zope.interface import alsoProvides, noLongerProvides
 
 from Products.PluggableAuthService.interfaces import plugins
-from Products.Silva.install import add_helper, zpt_add_helper
-from silva.pas.base.interfaces import IPASMemberService
+from silva.pas.base.interfaces import IPASService
 from silva.pas.openid.interfaces import IOpenIDAware
 
 
-def install(root):
+def install(root, extension):
     """Installation method for OpenID support
     """
-    assert IPASMemberService.providedBy(root.service_members)
-
-    # Change the login page to get a OpenID field
-    add_helper(root, 'silva_login_form.html', globals(), zpt_add_helper, 0)
-    # Add a OpenID registration page
-    add_helper(root, 'silva_openid_register.html', globals(), zpt_add_helper, 0)
+    assert IPASService.providedBy(root.service_members), \
+        u"This extension requires silva.pas.base"
 
     # Register PAS plugins
     registerPASPlugins(root.acl_users)
 
-    # Register views
-    registerViews(root.service_view_registry)
-
     alsoProvides(root.service_members, IOpenIDAware)
 
 
-def uninstall(root):
+def uninstall(root, extension):
     """Uninstall OpenID support
     """
-    assert IPASMemberService.providedBy(root.service_members)
-    # FIXME: We should restore the previous login page
-
+    assert IPASService.providedBy(root.service_members), \
+        u"This extension requires silva.pas.base"
     unregisterPASPlugins(root.acl_users)
-
-    # Remove views
-    unregisterViews(root.service_view_registry)
-
-    # We remove the registration page.
-    root.manage_delObjects(['silva_openid_register.html',])
     noLongerProvides(root.service_members, IOpenIDAware)
 
-def is_installed(root):
+
+def is_installed(root, extension):
     return IOpenIDAware.providedBy(root.service_members)
 
 
@@ -52,45 +38,41 @@ def registerPASPlugins(pas):
     """Register new PAS plugins.
     """
     plugin_ids = pas.objectIds()
-    if 'session' not in plugin_ids:
-        pas.manage_addProduct['plone.session'].manage_addSessionPlugin('session')
+    assert 'cookie_auth' in plugin_ids, \
+        'Acl user have not been created by silva.pas.base'
     if 'openid' not in plugin_ids:
-        pas.manage_addProduct['silva.pas.openid'].manage_addOpenIDPlugin('openid')
+        factory = pas.manage_addProduct['silva.pas.openid']
+        factory.manage_addOpenIDPlugin('openid')
     if 'members' not in plugin_ids:
-        pas.manage_addProduct['silva.pas.membership'].manage_addMembershipPlugin('members')
+        factory = pas.manage_addProduct['silva.pas.membership']
+        factory.manage_addMembershipPlugin('members')
 
     def registerPluginIfNew(ptype, pid):
         if pid not in pas.plugins.listPluginIds(ptype):
             pas.plugins.activatePlugin(ptype, pid)
 
-    registerPluginIfNew(plugins.IExtractionPlugin, 'session')
-    registerPluginIfNew(plugins.IAuthenticationPlugin, 'session')
-    registerPluginIfNew(plugins.ICredentialsResetPlugin, 'session')
-    registerPluginIfNew(plugins.ICredentialsUpdatePlugin, 'session')
-
     registerPluginIfNew(plugins.IExtractionPlugin, 'openid')
     registerPluginIfNew(plugins.IAuthenticationPlugin, 'openid')
-
     registerPluginIfNew(plugins.IUserEnumerationPlugin, 'members')
-
-
-def registerViews(reg):
-    """Register Views.
-    """
-    reg.register('edit', 'Silva OpenID Member',
-                 ['edit', 'Member', 'SimpleMember'])
-
-
-def unregisterViews(reg):
-    """Unregister Views.
-    """
-    reg.unregister('edit', 'Silva OpenID Member')
+    registerPluginIfNew(plugins.ICredentialsUpdatePlugin, 'cookie_auth')
+    # Change login form
+    pas.cookie_auth.login_path = 'silva_login_form_with_openid.html'
 
 
 def unregisterPASPlugins(pas):
     """Remove PAS plugins.
     """
-    pas.manage_delObjects(['session', 'openid', 'members',])
+    plugin_ids = pas.objectIds()
+    assert 'cookie_auth' in plugin_ids, \
+        'Acl user have not been created by silva.pas.base'
+    if 'openid' not in plugin_ids:
+        pas.manage_delObjects(['openid'])
+    if 'members' not in plugin_ids:
+        pas.manage_delObjects(['members'])
+
+    pas.manage_delObjects(['openid', 'members',])
+    # Restore login form to default one
+    pas.cookie_auth.login_path = 'silva_login_form.html'
 
 
 if __name__ == '__main__':

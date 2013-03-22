@@ -3,7 +3,7 @@
 # $Id$
 
 from zope.interface import Interface, Attribute
-from Products.Silva.interfaces import IMember
+from silva.core.interfaces import IMember
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 
 class IOpenIdExtractionPlugin(IExtractionPlugin):

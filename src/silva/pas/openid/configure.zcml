@@ -1,24 +1,17 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
-   xmlns:zcml="http://namespaces.zope.org/zcml"
+   xmlns:grok="http://namespaces.zope.org/grok"
    xmlns:five="http://namespaces.zope.org/five">
-
-  <!-- The two next line are because of plone.keyring, to let tests
-     works if you have GenericSetup somewhere in your instance. But
-     GenericSetup is not a dependency at all. -->
-  <include package="Products.GenericSetup" file="meta.zcml"
-           zcml:condition="installed Products.GenericSetup" />
-  <include package="Products.GenericSetup"
-           zcml:condition="installed Products.GenericSetup" />
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <include package="five.grok" />
   <include package="silva.pas.base" />
   <include package="silva.pas.membership" />
-  <include package="plone.session" />
   <include package="silva.captcha" />
 
-  <include package=".browser" />
+  <!-- Grok the package -->
+  <grok:grok package="." />
 
   <adapter factory=".adapters.AskOpenIDOnRequest" />
   <adapter factory=".adapters.AskedOpenIDOnRequest" />

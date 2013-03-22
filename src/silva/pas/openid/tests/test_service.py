@@ -18,7 +18,7 @@ class OpenIDDependencyTestCase(SilvaTestCase.SilvaTestCase):
         def install():
             root = self.getRoot()
             root.service_extensions.install('silva.pas.openid')
-            
+
         self.assertRaises(AssertionError, install)
 
 
@@ -38,7 +38,7 @@ class OpenIDTestCase(SilvaTestCase.SilvaTestCase):
         """Test install.
         """
         root = self.getRoot()
-        
+
         # First the extension should be installed
         service_extensions = root.service_extensions
         self.failUnless(service_extensions.is_installed('silva.pas.base'))
@@ -63,7 +63,7 @@ class OpenIDTestCase(SilvaTestCase.SilvaTestCase):
 
 import unittest
 def test_suite():
-    
+
     # Load Five ZCML
     from Products import Five
     zcml.load_config('meta.zcml', Five)

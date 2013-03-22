@@ -2,29 +2,31 @@
 # See also LICENSE.txt
 # $Id$
 
-from zope.interface import implements
+from five import grok
 from zope.component import getUtility
 
 from AccessControl import ClassSecurityInfo
+from App.class_init import InitializeClass
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
-import Globals
 import DateTime
 
 from Products.Silva.SimpleMembership import SimpleMember
 from Products.Silva.helpers import add_and_edit
 from Products.Silva import SilvaPermissions
 
+from silva.core import conf as silvaconf
 from silva.pas.base.interfaces import IUserConverter
 from interfaces import IOpenIDMember
 
 
 class SilvaOpenIDMember(SimpleMember):
-
-    implements(IOpenIDMember)
+    grok.implements(IOpenIDMember)
 
     meta_type = 'Silva OpenID Member'
     security = ClassSecurityInfo()
-
+    silvaconf.icon('www/member.png')
+    silvaconf.factory('manage_addOpenIDMemberForm')
+    silvaconf.factory('manage_addOpenIDMember')
 
     manage_options = ({'label': 'Details',
                        'action': 'manage_details',
@@ -37,8 +39,7 @@ class SilvaOpenIDMember(SimpleMember):
         self.fully_registered = False
         self.last_login_date = None
 
-
-    security.declareProtected(SilvaPermissions.ViewManagementScreens, 
+    security.declareProtected(SilvaPermissions.ViewManagementScreens,
                               'manage_details')
     manage_details = PageTemplateFile(
         "www/openIDMemberDetails", globals(),
@@ -47,7 +48,7 @@ class SilvaOpenIDMember(SimpleMember):
     manage_main = manage_details
 
 
-Globals.InitializeClass(SilvaOpenIDMember)
+InitializeClass(SilvaOpenIDMember)
 
 
 manage_addOpenIDMemberForm = PageTemplateFile(
