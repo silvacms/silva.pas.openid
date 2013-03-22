@@ -2,14 +2,13 @@
 # See also LICENSE.txt
 # $Id$
 
+import urlparse
+
 # Zope 2
-from Acquisition import aq_parent
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 from zExceptions import Redirect
 import transaction
-
-# Zope 3
 from zope.component import getUtility
 from zope.component.event import objectEventNotify
 
@@ -25,6 +24,7 @@ from silva.pas.openid.interfaces import *
 from silva.pas.base.interfaces import IUserConverter
 from silva.pas.openid.store import ZopeStore
 from silva.pas.openid.events import *
+from silva.core.views.interfaces import IVirtualSite
 
 # OpenID
 from openid.yadis.discover import DiscoveryFailure
@@ -70,11 +70,6 @@ class OpenIdPlugin(BasePlugin):
         self.title = title
         self.store = ZopeStore()
 
-    def getTrustRoot(self):
-        pas = self._getPAS()
-        site = aq_parent(pas)
-        return site.absolute_url()
-
     def getConsumer(self):
         session=self.REQUEST["SESSION"]
         return Consumer(session, self.store)
@@ -98,7 +93,7 @@ class OpenIdPlugin(BasePlugin):
             objectEventNotify(OpenIDResultCancel(self, None, None))
 
     # IOpenIdExtractionPlugin implementation
-    def initiateChallenge(self, identity_url, return_to=None):
+    def initiateChallenge(self, request, identity_url, return_to=None):
         consumer = self.getConsumer()
         try:
             result = consumer.begin(identity_url)
@@ -111,16 +106,33 @@ class OpenIdPlugin(BasePlugin):
                     identity_url, e.why)
             pass
 
+        site_url = IVirtualSite(request).get_top_level_url()
+        site_parts = urlparse.urlparse(site_url)
+
         if return_to is None:
-            return_to=self.REQUEST.form.get("__ac.field.origin", None)
+            return_to = request.form.get("__ac.field.origin", None)
+            if return_to:
+                # Complicated smash-up to build a full-url
+                return_parts = urlparse.urlparse(return_to)
+                result_parts = ()
+                if not (return_parts[0] and return_parts[1]):
+                    result_parts = result_parts + (
+                        site_parts[0], site_parts[1])
+                else:
+                    result_parts = result_parts + (
+                        return_parts[0], return_parts[1])
+                result_parts = result_parts + (
+                    return_parts[2], '', '', return_parts[5])
+                return_to = urlparse.urlunparse(result_parts)
         if not return_to:
-            return_to=self.getTrustRoot()
-        self.REQUEST["SESSION"]['return_to'] = return_to
+            return_to = site_url
+        print return_to, site_url
+        request["SESSION"]['return_to'] = return_to
 
         if self.policy_url:
             result.addExtensionArg('sreg', 'policy_url', self.policy_url)
 
-        extra = IOpenIDAskedUserInformation(self.REQUEST)
+        extra = IOpenIDAskedUserInformation(request)
         if extra.require():
             result.addExtensionArg('sreg',
                                    'required',
@@ -130,7 +142,7 @@ class OpenIdPlugin(BasePlugin):
                                    'optional',
                                    ','.join(extra.optional()))
 
-        url = result.redirectURL(self.getTrustRoot(), return_to)
+        url = result.redirectURL(site_url, return_to)
 
         # There is evilness here: we can not use a normal RESPONSE.redirect
         # since further processing of the request will happily overwrite
@@ -142,7 +154,6 @@ class OpenIdPlugin(BasePlugin):
         transaction.commit()
         raise Redirect, url
 
-
     # IExtractionPlugin implementation
     def extractCredentials(self, request):
         """This method performs the PAS credential extraction.
@@ -153,7 +164,7 @@ class OpenIdPlugin(BasePlugin):
         creds = {}
         identity = request.form.get("__ac.field.identity.url", '').strip()
         if identity:
-            self.initiateChallenge(identity)
+            self.initiateChallenge(request, identity)
             return creds
 
         self.extractOpenIdServerResponse(request, creds)

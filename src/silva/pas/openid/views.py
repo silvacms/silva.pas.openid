@@ -68,23 +68,19 @@ class RegisterPage(silvaviews.Page):
 
         root = self.context.get_root()
         service = getUtility(IMemberService)
-        if service.is_user(identity):
-            # Authenticate
-            # direct lookup ?
-            root.acl_users.validate(self.request)
-            assert False, 'OpenID plugin is not enabled.'
-
-        members = root.Members
-        factory = members.manage_addProduct['silva.pas.openid']
-        factory.manage_addOpenIDMember(identity)
-
-        provider = IOpenIDAskUserInformation(self.request)
-        provider.require('email')
-        provider.optional('nickname')
-        provider.optional('fullname')
+        if not service.is_user(identity):
+            # Create a member.
+            members = root.Members
+            factory = members.manage_addProduct['silva.pas.openid']
+            factory.manage_addOpenIDMember(identity)
+            # Ask information in order to fill-in member object.
+            provider = IOpenIDAskUserInformation(self.request)
+            provider.require('email')
+            provider.optional('nickname')
+            provider.optional('fullname')
 
         root.acl_users.validate(self.request)
-        assert False, 'OpenID plugin is not enabled.'
+        self.feedback = _(u'This URL is not a OpenID identity.')
 
     def update(self):
         captcha = getMultiAdapter((self.context, self.request), name='captcha')
