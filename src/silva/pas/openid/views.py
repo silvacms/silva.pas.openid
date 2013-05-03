@@ -11,9 +11,12 @@ from silva.core.services.interfaces import IMemberService
 from silva.core.views import views as silvaviews
 from silva.core.views.interfaces import IHTTPResponseHeaders
 from silva.pas.openid.interfaces import IOpenIDAskUserInformation
+from silva.pas.openid.interfaces import ILoginPage, IRegisterPage
 from silva.translations import translate as _
 
 from zExceptions import BadRequest
+
+from silva.fanstatic import need
 
 
 class LoginPage(silvaviews.Page):
@@ -24,6 +27,7 @@ class LoginPage(silvaviews.Page):
     action = None
 
     def update(self):
+        need(ILoginPage)
         self.url = absoluteURL(self.context, self.request)
         if self.action is None:
             raise BadRequest()
@@ -83,9 +87,9 @@ class RegisterPage(silvaviews.Page):
         self.feedback = _(u'This URL is not a OpenID identity.')
 
     def update(self):
+        need(IRegisterPage)
         captcha = getMultiAdapter((self.context, self.request), name='captcha')
         self._process(captcha)
         self.url = absoluteURL(self.context, self.request)
         self.captcha_img = captcha.image_tag()
         self.captcha_audio_url = captcha.audio_url()
-

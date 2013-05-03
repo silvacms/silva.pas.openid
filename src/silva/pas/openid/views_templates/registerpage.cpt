@@ -1,80 +1,68 @@
 ﻿<div class="login-form"
      i18n:domain="silva">
-
-  <h3 i18n:translate="">OpenID Registration</h3>
-
+  <h1 i18n:translate="">OpenID Registration</h1>
   <p style="color: red; font-weight: bold"
      tal:condition="view.feedback"
      tal:content="view.feedback">
     Status
   </p>
-
   <p i18n:translate="">
     If this is the first time you login with OpenID on this site we'll
     request basic information, such as your full name. If it's available and
     you allow us to use it, your full name will then appear in your postings.
     Otherwise your OpenID will be used.
   </p>
-
   <form method="post" action="${view.url}/openid_register_new_user.html">
     <input type="hidden" name="__ac.field.origin" value=""
            tal:attributes="value request.get('__ac.field.origin')"/>
-    <table class="access">
-      <tr>
-        <td colspan="2">
-          <p i18n:translate="">
+   <div class="form">
+    <div class="form-element">
+        <p i18n:translate="">
             Enter the url of your OpenID, such as http://yourname.myopenid.com/:
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td class="form-label"><b i18n:translate="">OpenID:</b>&nbsp;</td>
-        <td>
-          <input type="text" name="__ac.field.identity.register" size="50" />
-        </td>
-      </tr>
-      <tr>
-        <td class="form-label"></td>
-        <td>
-          <p i18n:translate="">
-            To be sure you're not a spambot, please enter the
-            letters/numbers in the image (or audio). You can type the
-            characters in lower case.
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td class="form-label"><b i18n:translate="">Captcha:</b></td>
-        <td>
-          <tal:captcha tal:content="structure view.captcha_img" />
-          <div class="captchaAudio">
+        </p>
+        <div class="form-label">
+            <label class="openid-label" for="__ac.field.identity.register">OpenID</label>
+        </div>
+        <div class="form-field">
+            <input type="text" name="__ac.field.identity.register" size="50" />
+        </div>
+    </div>
+    <div class="form-element"> 
+        <p i18n:translate="">
+        To be sure you're not a spambot, please enter the
+        letters/numbers in the image (or audio). You can type the
+        characters in lower case.
+        </p>
+        <div class="form-label">
+            <label i18n:translate="">Captcha:</label>
+        </div>
+        <tal:captcha tal:content="structure view.captcha_img" />
+        <div class="captchaAudio">
             <a href="#" target="_blank"
                tal:attributes="href view.captcha_audio_url"
                i18n:translate="">
               Audio version
             </a>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td><b i18n:translate="">Validation:</b></td>
-        <td class="form-label">
+        </div>
+    </div>
+    <div class="form-element">
+        <div class="form-label">
+            <label for="__ac.field.identity.captcha" i18n:translate="">Validation:</label>
+        </div>
+        <div class="form-field">
           <input type="text" name="__ac.field.identity.captcha" size="50" />
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <input class="button cancel" type="button" value="Return"
-                 onClick="history.go(-1)"
-                 i18n:attributes="value" />
-        </td>
-        <td>
-          <input type="submit" value=" Register "
-                 name="__ac.field.identity.do"
-                 i18n:attributes="value" />
-        </td>
-      </tr>
-    </table>
-  </form>
-
-</div>
+        </div>
+    </div>
+    <div class="form-element">
+        <div class="form-field form-actions">
+            <input class="button cancel" type="button" value="Return"
+                   onClick="history.go(-1)"
+                   i18n:attributes="value" />  
+            <input class="button submit" type="submit" value=" Register "
+                   name="__ac.field.identity.do"
+                   i18n:attributes="value" />
+        </div>
+    </div>
+  </div>
+ </form>
+</div> 
