@@ -34,7 +34,7 @@
         characters in lower case.
         </p>
         <div class="form-label">
-            <label i18n:translate="">Captcha:</label>
+            <label i18n:translate="">Captcha</label>
         </div>
         <tal:captcha tal:content="structure view.captcha_img" />
         <div class="captchaAudio">
@@ -47,7 +47,7 @@
     </div>
     <div class="form-element">
         <div class="form-label">
-            <label for="__ac.field.identity.captcha" i18n:translate="">Validation:</label>
+            <label for="__ac.field.identity.captcha" i18n:translate="">Validation</label>
         </div>
         <div class="form-field">
           <input type="text" name="__ac.field.identity.captcha" size="50" />
