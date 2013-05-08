@@ -87,10 +87,10 @@
       </p>
       <div class="form-element">
         <div class="form-label">
-          <label class="openid-label" for="__ac.field.identity.url">OpenID</label>
+          <label for="openid-url">OpenID</label>
         </div>
         <div class="form-field">
-          <input type="text" name="__ac.field.identity.url" size="45" />
+          <input class="openid-input" id="openid-url" type="text" name="__ac.field.identity.url" size="45" />
         </div>  
       </div>        
       <div class="form-element">

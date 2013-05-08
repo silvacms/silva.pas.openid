@@ -1,6 +1,9 @@
-.openid-label {
-    background: url("./openid-icon.png") no-repeat scroll right center transparent;
-    padding-left: 16px;
+.openid-input {
+    background: url("./openid-icon.png") no-repeat scroll 1px 1px transparent;
+}
+
+.openid-input:focus {
+    background: none;
 }
 
 .captchaAudio {
