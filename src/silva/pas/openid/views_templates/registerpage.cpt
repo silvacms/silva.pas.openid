@@ -24,7 +24,7 @@
             <label for="openid-url">OpenID</label>
         </div>
         <div class="form-field">
-            <input class="openid-input" id="openid-url" type="text" name="__ac.field.identity.register" size="50" />
+            <input class="openid-input" id="openid-url" type="text" name="__ac.field.identity.register" size="40" />
         </div>
     </div>
     <div class="form-element"> 
@@ -50,7 +50,7 @@
             <label for="captcha-validation" i18n:translate="">Validation</label>
         </div>
         <div class="form-field">
-          <input id="captcha-validation" type="text" name="__ac.field.identity.captcha" size="50" />
+          <input id="captcha-validation" type="text" name="__ac.field.identity.captcha" size="40" />
         </div>
     </div>
     <div class="form-element">

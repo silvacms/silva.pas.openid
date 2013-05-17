@@ -90,7 +90,7 @@
           <label for="openid-url">OpenID</label>
         </div>
         <div class="form-field">
-          <input class="openid-input" id="openid-url" type="text" name="__ac.field.identity.url" size="45" />
+          <input class="openid-input" id="openid-url" type="text" name="__ac.field.identity.url" size="40" />
         </div>  
       </div>        
       <div class="form-element">

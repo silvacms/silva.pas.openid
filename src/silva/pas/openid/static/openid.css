@@ -1,5 +1,5 @@
 .openid-input {
-    background: url("./openid-icon.png") no-repeat scroll 1px 1px transparent;
+    background: url("./openid-icon.png") no-repeat scroll 1px 1px #FFF;
 }
 
 .openid-input:focus {
