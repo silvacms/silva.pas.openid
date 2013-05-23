@@ -1,7 +1,9 @@
 <div class="login-form"
      i18n:domain="silva">
+     
   <h1 i18n:translate="">Protected area</h1>
-  <div style="color:#f00; font-weight:bold;"
+  
+  <div class="form-error"
        tal:define="message view.message"
        tal:condition="message">
     <!-- override the local style with a div.warning selector in your css -->
@@ -10,17 +12,20 @@
       status
     </div>
   </div>
+  
   <p tal:condition="not view.message"
     i18n:translate="">
     The page you are trying to visit has restricted access. Please
     authenticate.
   </p>
+  
   <form method="post" action="#" name="login_form"
         tal:attributes="action view.action">
     <input type="hidden" name="__ac.field.origin" value=""
            tal:attributes="value request.get('__ac.field.origin')"/>
     <input type="hidden" name="__ac.field.secret" value=""
            tal:attributes="value request.get('__ac.field.secret')"/>
+           
     <div class="form">
       <div class="form-title">
         <label for="name" i18n:translate="">Log in to the site</label>

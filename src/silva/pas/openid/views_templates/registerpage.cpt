@@ -1,11 +1,11 @@
 ﻿<div class="login-form"
      i18n:domain="silva">
   <h1 i18n:translate="">OpenID Registration</h1>
-  <p style="color: red; font-weight: bold"
-     tal:condition="view.feedback"
-     tal:content="view.feedback">
-    Status
-  </p>
+  <div class="form-error" tal:condition="view.feedback">
+      <p tal:content="view.feedback">
+        Status
+      </p>
+  </div>
   <p i18n:translate="">
     If this is the first time you login with OpenID on this site we'll
     request basic information, such as your full name. If it's available and
@@ -27,6 +27,7 @@
             <input class="openid-input" id="openid-url" type="text" name="__ac.field.identity.register" size="40" />
         </div>
     </div>
+    <br />
     <div class="form-element"> 
         <p i18n:translate="">
         To be sure you're not a spambot, please enter the
@@ -36,13 +37,10 @@
         <div class="form-label">
             <label i18n:translate="">Captcha</label>
         </div>
-        <tal:captcha tal:content="structure view.captcha_img" />
-        <div class="captchaAudio">
-            <a href="#" target="_blank"
-               tal:attributes="href view.captcha_audio_url"
-               i18n:translate="">
-              Audio version
-            </a>
+        <div class="form-field">
+            <div class="field-captcha-wrapper">
+                <tal:captcha tal:content="structure view.captcha_img" />
+            </div>    
         </div>
     </div>
     <div class="form-element">
