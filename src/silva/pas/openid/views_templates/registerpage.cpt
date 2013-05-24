@@ -31,7 +31,7 @@
     <div class="form-element"> 
         <p i18n:translate="">
         To be sure you're not a spambot, please enter the
-        letters/numbers in the image (or audio). You can type the
+        letters/numbers in the image. You can type the
         characters in lower case.
         </p>
         <div class="form-label">
