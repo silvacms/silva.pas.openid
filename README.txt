@@ -27,9 +27,9 @@ funding came from another source.
 Code repository
 ===============
 
-You can find the code of this extension in Mercurial:
-https://hg.infrae.com/silva.pas.openid/.
+You can find the code of this extension in Git:
+https://github.com/silvacms/silva.pas.openid
 
 
-.. _Silva: http://infrae.com/products/silva
+.. _Silva: http://silvacms.org
 

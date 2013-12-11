@@ -9,7 +9,7 @@ version = '3.0.1.dev'
 
 setup(name='silva.pas.openid',
       version=version,
-      description="OpenID suport for Silva",
+      description="OpenID support for Silva CMS",
       long_description= open('README.txt').read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
@@ -21,7 +21,7 @@ setup(name='silva.pas.openid',
       keywords='pas openid silva',
       author='Sylvain Viollon',
       author_email='info@infrae.com',
-      url='http://svn.infrae.com/silva.pas.openid/trunk',
+      url='https://github.com/silvacms/silva.pas.openid',
       license='BSD',
       package_dir={'': 'src'},
       packages=find_packages('src', exclude=['ez_setup']),
